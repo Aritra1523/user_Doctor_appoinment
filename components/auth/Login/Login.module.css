@@ -1,0 +1,115 @@
+/* Login.module.css */
+
+/* Outer container – centers the card on the page */
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+  padding: 1.5rem;
+}
+
+/* The form itself acts as the card */
+.card {
+  background: #ffffff;
+  padding: 2.5rem 2.5rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 20px 60px rgba(0, 20, 50, 0.15);
+  width: 100%;
+  max-width: 420px;
+  transition: all 0.3s ease;
+}
+
+.card h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+/* Form fields */
+.card input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  background: #f8fafc;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  margin-bottom: 0.25rem;
+}
+
+.card input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background: #ffffff;
+}
+
+/* Error messages */
+.card p {
+  margin: 0.2rem 0 0.8rem 0;
+  font-size: 0.8rem;
+  color: #dc2626;
+  min-height: 1.2rem;
+}
+
+/* Button */
+.card button {
+  width: 100%;
+  background: #1e3a8a;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.9rem;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  margin-top: 0.5rem;
+}
+
+.card button:hover:not(:disabled) {
+  background: #1e40af;
+}
+
+.card button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Footer link */
+.card .footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.card .footer a {
+  color: #1e3a8a;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.card .footer a:hover {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.5rem;
+  }
+}
