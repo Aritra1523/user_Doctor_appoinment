@@ -16,6 +16,8 @@ const endpoints = {
 
    userSlotList: "user/slot/list",
 
+   history:"/user/history"
+
 };
 
 export default endpoints;

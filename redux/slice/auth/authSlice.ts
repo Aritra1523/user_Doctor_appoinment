@@ -1,3 +1,5 @@
+
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axiosInstance from "@/api/baseUrl/url";
 import endpoints from "@/api/endpoints/endpoints";
@@ -159,7 +161,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, {payload}) => {
         state.loading = false;
         state.error = null;
-        state.user = payload.user;
+        state.user = payload.data;
         state.accessToken = payload.accessToken;
         state.refreshToken = payload.refreshToken;
       })
