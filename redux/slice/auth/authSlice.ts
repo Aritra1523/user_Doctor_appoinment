@@ -156,13 +156,12 @@ const authSlice = createSlice({
         state.error = null;
       })
 
-      .addCase(loginUser.fulfilled, (state, action) => {
+      .addCase(loginUser.fulfilled, (state, {payload}) => {
         state.loading = false;
         state.error = null;
-
-        state.user = action.payload.data;
-        state.accessToken = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        state.user = payload.user;
+        state.accessToken = payload.accessToken;
+        state.refreshToken = payload.refreshToken;
       })
 
       .addCase(loginUser.rejected, (state, action) => {

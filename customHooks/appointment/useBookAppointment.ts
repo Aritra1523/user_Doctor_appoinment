@@ -10,18 +10,14 @@ const useBookAppointment = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  const { loading } = useSelector(
-    (state: RootState) => state.appoinment
-  );
+  const { loading } = useSelector((state: RootState) => state.appoinment);
 
-  const { user } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { user } = useSelector((state: RootState) => state.auth);
 
   const handleBookAppointment = async (
     doctorId: string,
     date: string,
-    time: string
+    time: string,
   ) => {
     if (!date) {
       return Swal.fire({
@@ -38,14 +34,15 @@ const useBookAppointment = () => {
     }
 
     try {
+      console.log("user", user);
       await dispatch(
         bookAppointment({
           doctorId,
-          userId: user.id,
-          name: user.name,
+          userId: user?._id ?? user?.id,
+          name: user?.name,
           date,
           time,
-        })
+        }),
       ).unwrap();
 
       await Swal.fire({
