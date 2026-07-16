@@ -1,4 +1,3 @@
-// app/page.tsx - Single file Next.js application with telehealth image
 'use client';
 
 import Link from 'next/link';
