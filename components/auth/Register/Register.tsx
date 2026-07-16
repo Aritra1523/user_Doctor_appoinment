@@ -496,7 +496,7 @@ const Register = () => {
                 <p className="text-center text-[10px] text-slate-600 animate-fadeInUp" style={{ animationDelay: '0.35s' }}>
                   Already have an account?{" "}
                   <Link
-                    href="/login"
+                    href="/auth/login"
                     className="text-blue-600 hover:text-blue-700 font-semibold transition-all hover:underline"
                   >
                     Sign in

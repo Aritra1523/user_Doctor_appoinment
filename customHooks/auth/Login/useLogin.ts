@@ -39,7 +39,7 @@ const useLogin = () => {
 
       reset();
 
-      router.push("/doctorlist");
+      router.push("/dashbord");
     } catch (err: any) {
       Swal.fire({
         icon: "error",

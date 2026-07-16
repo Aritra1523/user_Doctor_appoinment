@@ -23,7 +23,7 @@ export const getHistory = createAsyncThunk<
   "history/getHistory",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get(endpoints.userHistory);
+      const res = await axiosInstance.get(endpoints.history);
 
       return res.data;
     } catch (error) {

@@ -18,13 +18,14 @@ const useVerifyOtp = () => {
 
   const router = useRouter();
 
-  const userId = useSelector(
-    (state: RootState) => state.auth.user?.id
-  );
-const user = useSelector((state: RootState) => state.auth.user);
+  const userId = useSelector((state: RootState) => state.auth.user?.id);
+  const user = useSelector((state: RootState) => state.auth.user);
+
   const {
     register,
     handleSubmit,
+    setValue,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<OtpForm>({
     resolver: yupResolver(otpSchema),
@@ -58,6 +59,8 @@ const user = useSelector((state: RootState) => state.auth.user);
     handleSubmit: handleSubmit(onSubmit),
     errors,
     isSubmitting,
+    setValue,
+    clearErrors,
   };
 };
 
