@@ -1,3 +1,4 @@
+
 "use client";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -6,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store/store";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { setCookie } from "cookies-next";
 import { loginSchema } from "@/schema/auth/Login/LoginSchema";
 import { LoginPayload } from "@/typescript/auth/Login/auth";
 import { loginUser } from "@/redux/slice/auth/authSlice";
@@ -28,9 +30,15 @@ const useLogin = () => {
     try {
       const res = await dispatch(loginUser(data)).unwrap();
 
-      localStorage.setItem("accessToken", res.accessToken);
+      setCookie("token", res.accessToken, {
+        maxAge: 60 * 15, // 15 min, matches the refresh flow in axiosInstance
+        path: "/",
+      });
 
-      localStorage.setItem("refreshToken", res.refreshToken);
+      setCookie("refresh-token", res.refreshToken, {
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+        path: "/",
+      });
 
       Swal.fire({
         icon: "success",
