@@ -1,21 +1,15 @@
 import * as yup from "yup";
 
 export const registerSchema = yup.object({
-  first_name: yup.string().required("First name is required"),
+  first_name: yup.string().required("First name is required").length(3,"minimum 3 characters"),
 
-  last_name: yup.string().required("Last name is required"),
+  last_name: yup.string().required("Last name is required").length(3,"minimum 3 characters"),
 
-  email: yup
-    .string()
-    .email("Invalid email")
-    .required("Email is required"),
+  email: yup.string().email("Invalid email").required("Email is required"),
 
   address: yup.string().required("Address is required"),
 
-  password: yup
-    .string()
-    .min(6, "Minimum 6 characters")
-    .required(),
+  password: yup.string().min(6, "Minimum 6 characters").required(),
 
   confirm_password: yup
     .string()

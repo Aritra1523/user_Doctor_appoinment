@@ -10,8 +10,7 @@ const useBookAppointment = () => {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
-  // Fix: Correct the state path
-  const { loading } = useSelector((state: RootState) => state.appoinment); // Fixed spelling
+  const { loading } = useSelector((state: RootState) => state.appoinment); 
 
   const { user } = useSelector((state: RootState) => state.auth);
 
@@ -45,7 +44,7 @@ const useBookAppointment = () => {
       await dispatch(
         bookAppointment({
           doctorId,
-          userId: user._id || user.id, // User is now guaranteed to exist
+          userId: user._id || user.id, 
           name: user.name,
           date,
           time,
@@ -57,7 +56,7 @@ const useBookAppointment = () => {
         title: "Appointment Booked Successfully",
       });
 
-      router.push("/history");
+      router.push("/profile");
     } catch (error: any) {
       Swal.fire({
         icon: "error",

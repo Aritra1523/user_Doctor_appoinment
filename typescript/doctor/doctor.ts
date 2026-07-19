@@ -1,7 +1,7 @@
 export interface Doctor{
     _id:string,
     name:string,
-    fess:string,
+    fees:string,
     department:string;
 
     schedule:{

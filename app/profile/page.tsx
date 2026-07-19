@@ -1,7 +1,13 @@
+
+
+
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/redux/store/store";
 import {
   getHistory,
   getNearbyDiagnostics,
@@ -49,9 +55,30 @@ type AsyncState<T> =
   | { status: "error"; message: string }
   | { status: "ready"; data: T };
 
+
+function pickProfileFields(raw: any) {
+  const source = raw?.user ?? raw ?? {};
+  const rows: { label: string; value: string }[] = [];
+
+  const add = (label: string, value: unknown) => {
+    if (value === null || value === undefined || value === "") return;
+    rows.push({ label, value: String(value) });
+  };
+
+  add("Name", source.name ?? source.fullName);
+  add("Email", source.email);
+  add("Phone", source.phone ?? source.phoneNumber ?? source.mobile);
+  add("Role", source.role);
+  add("Member since", source.createdAt ?? source.joinedAt);
+
+  return rows;
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const user = useCurrentUser();
+  const router = useRouter();
+  const dispatch = useDispatch<AppDispatch>();
 
   // Profile click -> fetch + show /user/dashboard API data
   const {
@@ -61,6 +88,7 @@ export default function DashboardPage() {
     fetchDashboard,
   } = useDashboard();
   const [showProfile, setShowProfile] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleProfileClick = () => {
     setShowProfile((prev) => !prev);
@@ -69,6 +97,22 @@ export default function DashboardPage() {
       fetchDashboard();
     }
   };
+
+  const handleLogout = async () => {
+    setLoggingOut(true);
+    try {
+      await dispatch(logoutUser());
+    } finally {
+      setShowProfile(false);
+      setLoggingOut(false);
+      router.push("/auth/login");
+    }
+  };
+
+  const profileFields = useMemo(
+    () => (profileData ? pickProfileFields(profileData) : []),
+    [profileData]
+  );
 
   const [history, setHistory] = useState<AsyncState<HistoryItem[]>>({
     status: "loading",
@@ -206,16 +250,24 @@ export default function DashboardPage() {
 
               {showProfile && (
                 <div className="absolute right-0 mt-2 w-72 bg-white border border-[#DCD5C4] rounded-xl shadow-lg p-4 z-50">
-                  <p className="text-xs font-mono uppercase tracking-wide text-[#3d554d] mb-2">
-                    Dashboard data
-                  </p>
+                  <div className="flex items-center gap-3 pb-3 mb-3 border-b border-[#DCD5C4]">
+                    <div className="w-10 h-10 rounded-full bg-[#E6EBDE] flex items-center justify-center font-mono text-xs font-bold text-[#1F4D3F] flex-shrink-0">
+                      {user.initials}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-[#123329] truncate">
+                        {user.name}
+                      </p>
+                      <p className="text-xs text-[#3d554d]">My profile</p>
+                    </div>
+                  </div>
 
                   {profileLoading && (
                     <p className="text-sm text-[#3d554d]">Loading…</p>
                   )}
 
                   {!profileLoading && profileError && (
-                    <div className="text-sm text-[#a13d3d]">
+                    <div className="text-sm text-[#a13d3d] mb-3">
                       <p className="mb-2">{profileError}</p>
                       <button
                         onClick={fetchDashboard}
@@ -226,15 +278,48 @@ export default function DashboardPage() {
                     </div>
                   )}
 
-                  {!profileLoading && !profileError && profileData && (
-                    <pre className="text-xs text-[#123329] whitespace-pre-wrap break-words max-h-64 overflow-auto">
-                      {JSON.stringify(profileData, null, 2)}
-                    </pre>
-                  )}
+                  {!profileLoading &&
+                    !profileError &&
+                    profileFields.length > 0 && (
+                      <dl className="mb-3 flex flex-col gap-1.5">
+                        {profileFields.map((row) => (
+                          <div
+                            key={row.label}
+                            className="flex items-baseline justify-between gap-3 text-sm"
+                          >
+                            <dt className="text-xs text-[#3d554d]">
+                              {row.label}
+                            </dt>
+                            <dd className="text-[#123329] font-medium truncate text-right">
+                              {row.value}
+                            </dd>
+                          </div>
+                        ))}
+                      </dl>
+                    )}
+
+                  {!profileLoading &&
+                    !profileError &&
+                    profileData &&
+                    profileFields.length === 0 && (
+                      <p className="text-sm text-[#3d554d] mb-3">
+                        Profile loaded.
+                      </p>
+                    )}
 
                   {!profileLoading && !profileError && !profileData && (
-                    <p className="text-sm text-[#3d554d]">No data yet.</p>
+                    <p className="text-sm text-[#3d554d] mb-3">
+                      No data yet.
+                    </p>
                   )}
+
+                  <button
+                    onClick={handleLogout}
+                    disabled={loggingOut}
+                    className="w-full text-sm font-semibold px-3 py-2 rounded-lg border border-[#DCD5C4] text-[#a13d3d] hover:bg-[#a13d3d] hover:text-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {loggingOut ? "Logging out…" : "Log out"}
+                  </button>
                 </div>
               )}
             </div>

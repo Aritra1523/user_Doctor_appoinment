@@ -1,4 +1,3 @@
-// app/(user)/dashboard/page.tsx  ← adjust path to match your folder structure
 "use client";
 
 import { useEffect, useMemo, useState, useCallback } from "react";
