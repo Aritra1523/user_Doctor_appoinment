@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useMemo, useState } from "react";
@@ -136,10 +134,10 @@ const DoctorList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <div className="py-20 flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <SpinnerIcon />
-          <p className="text-slate-600 font-medium">Loading Doctors...</p>
+          <p className="text-slate-600 font-medium">Loading doctors…</p>
         </div>
       </div>
     );
@@ -147,8 +145,8 @@ const DoctorList = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-        <div className="bg-white rounded-2xl px-8 py-12 shadow-xl max-w-md w-full text-center">
+      <div className="py-16 flex items-center justify-center">
+        <div className="bg-white rounded-2xl px-8 py-12 shadow-sm border border-slate-100 max-w-md w-full text-center">
           <div className="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="10" strokeWidth="2" />
@@ -169,12 +167,8 @@ const DoctorList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50 p-4 md:p-8 font-sans relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right, rgba(37,99,235,0.04), transparent_50%)] pointer-events-none fixed" />
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left, rgba(124,58,237,0.03), transparent_50%)] pointer-events-none fixed" />
-
-      <div className="relative z-10 max-w-6xl mx-auto">
+    <div className="font-sans relative">
+      <div className="relative z-10">
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
           <div>
