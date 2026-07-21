@@ -73,3 +73,14 @@ export const NoResultsIcon = () => (
     <circle cx="12" cy="9" r="2.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
+export const ChevronLeftIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M15 18L9 12L15 6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+export const ChevronRightIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <path d="M9 18L15 12L9 6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);

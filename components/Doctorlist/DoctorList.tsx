@@ -1,7 +1,7 @@
-
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import useDoctorList from "@/customHooks/doctor/useDoctorList";
 import { Doctor } from "@/typescript/doctor/doctor";
 import { Header } from "./Header";
@@ -10,18 +10,69 @@ import { EmptyState } from "./EmptyState";
 import { ErrorState } from "./ErrorState";
 import { LoadingSpinner, DoctorListSkeleton } from "./Skeleton";
 import { useDoctorListHelpers } from "./useDoctorListHelpers";
+import { Pagination } from "./Pagination";
+
+const DEFAULT_LIMIT = 5;
+// When searching, fetch (effectively) the whole list in one request so
+// search isn't limited to just the 5 doctors on the current page.
+const SEARCH_FETCH_LIMIT = 1000;
 
 const DoctorList = () => {
-  const { doctors, loading, error } = useDoctorList();
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const pageParam = Number(searchParams.get("page"));
+  const limitParam = Number(searchParams.get("limit"));
+  const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
+  const limit = Number.isFinite(limitParam) && limitParam > 0 ? limitParam : DEFAULT_LIMIT;
+
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("featured");
   const [showSortDropdown, setShowSortDropdown] = useState(false);
 
+  const isSearching = search.trim().length > 0;
+
+  // Not searching: fetch exactly this page (?page=&limit=) from the server.
+  // Searching: fetch everything once so we can filter across the full list.
+  const effectivePage = isSearching ? 1 : page;
+  const effectiveLimit = isSearching ? SEARCH_FETCH_LIMIT : limit;
+
+  const { doctors, loading, error, totalItems, totalPages } = useDoctorList(
+    effectivePage,
+    effectiveLimit
+  );
+
+  const goToPage = (nextPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(nextPage));
+    params.set("limit", String(limit));
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  // Note: sort still only applies to the doctors already on this page — only
+  // search fetches the full list.
   const { getRandomUserImage, getDoctorData, filteredDoctors } = useDoctorListHelpers(
     doctors,
     search,
     sortBy
   );
+
+  // If a deep link points past the last real page (e.g. ?page=99), snap
+  // back to the last valid page once we know how many pages there are.
+  // Skipped while searching, since totalPages reflects the "fetch everything"
+  // request in that mode, not the real per-page pagination.
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    if (!loading && !isSearching && page > totalPages) {
+      goToPage(totalPages);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, totalPages, isSearching]);
 
   // Loading states with progressive enhancement
   if (loading) {
@@ -63,23 +114,35 @@ const DoctorList = () => {
           setSortBy={setSortBy}
           showSortDropdown={showSortDropdown}
           setShowSortDropdown={setShowSortDropdown}
-          totalDoctors={filteredDoctors.length}
+          totalDoctors={isSearching ? filteredDoctors.length : totalItems}
         />
 
         {filteredDoctors.length === 0 ? (
           <EmptyState onReset={() => { setSearch(''); setSortBy('featured'); }} />
         ) : (
-          <div className="space-y-4">
-            {filteredDoctors.map((doctor: Doctor, index: number) => (
-              <DoctorCard
-                key={doctor._id}
-                doctor={doctor}
-                index={index}
-                getRandomUserImage={getRandomUserImage}
-                getDoctorData={getDoctorData}
+          <>
+            <div className="space-y-4">
+              {filteredDoctors.map((doctor: Doctor, index: number) => (
+                <DoctorCard
+                  key={doctor._id}
+                  doctor={doctor}
+                  index={index}
+                  getRandomUserImage={getRandomUserImage}
+                  getDoctorData={getDoctorData}
+                />
+              ))}
+            </div>
+
+            {!isSearching && (
+              <Pagination
+                page={page}
+                limit={limit}
+                totalItems={totalItems}
+                totalPages={totalPages}
+                onPageChange={goToPage}
               />
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
 

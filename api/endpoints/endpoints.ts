@@ -16,7 +16,8 @@ const endpoints = {
 
    userSlotList: "user/slot/list",
 
-   history:"/user/history"
+   history:"/user/history",
+   resetlink:"auth/resetlink"
    
 
 };

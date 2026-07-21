@@ -1,14 +1,16 @@
-export interface Doctor{
-    _id:string,
-    name:string,
-    fees:string,
-    department:string;
+export interface Doctor {
+  _id: string;
+  name: string;
+  image?: string;
+  department: string | { name: string };
+  fees: number;
+  schedule: {
+    startTime: string;
+    endTime: string;
+    slotDuration: number;
+  };
+}
 
-    schedule:{
-        startTime:{
-            startTime:string,
-            endTime:string,
-            slotDuration:string
-        }
-    }
+export interface DoctorDetailsProps {
+  id: string;
 }
