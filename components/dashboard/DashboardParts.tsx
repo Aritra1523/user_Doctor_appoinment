@@ -1,12 +1,11 @@
-
 "use client";
 
 import { VisitStatus } from "@/lib/api";
 
 const STATUS_STYLES: Record<VisitStatus, { bg: string; text: string; label: string }> = {
-  upcoming: { bg: "#E4F1EE", text: "#0C8577", label: "Upcoming" },
-  completed: { bg: "#E4F1EE", text: "#0C8577", label: "Completed" },
-  cancelled: { bg: "#FBE8E9", text: "#D64550", label: "Cancelled" },
+  Confirmed: { bg: "#E4F1EE", text: "#0C8577", label: "Confirmed" },
+  Pending: { bg: "#FDF3E0", text: "#B8862E", label: "Pending" },
+  Cancelled: { bg: "#FBE8E9", text: "#D64550", label: "Cancelled" },
 };
 
 export function StatusBadge({ status }: { status: VisitStatus }) {

@@ -17,13 +17,18 @@ const initialState: HistoryState = {
 
 export const getHistory = createAsyncThunk<
   any,
-  void,
+  { userId: string; doctorId?: string },
   { rejectValue: string }
 >(
   "history/getHistory",
-  async (_, { rejectWithValue }) => {
+  async ({ userId, doctorId }, { rejectWithValue }) => {
     try {
-      const res = await axiosInstance.get(endpoints.history);
+      const res = await axiosInstance.get(endpoints.history, {
+        params: {
+          userId,
+          doctorId: doctorId ?? "",
+        },
+      });
 
       return res.data;
     } catch (error) {
