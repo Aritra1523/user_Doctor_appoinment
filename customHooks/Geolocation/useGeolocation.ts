@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-type GeoState =
+export type GeoState =
   | { status: "loading" }
   | { status: "error"; message: string }
   | { status: "ready"; lat: number; lng: number };
