@@ -16,7 +16,6 @@ const VerifyOtp = () => {
   const inputRefs = useRef([]);
 
   const focusInput = (index) => {
-    
     setTimeout(() => {
       const el = inputRefs.current[index];
       if (el) {
@@ -138,7 +137,7 @@ const VerifyOtp = () => {
                   onChange={(e) => handleOtpChange(index, e)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={handlePaste}
-                  className={`w-12 h-14 text-center text-2xl font-bold rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+                  className={`w-12 h-14 text-center text-2xl text-gray-900 font-bold rounded-xl border-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all caret-blue-600 ${
                     errors.otp
                       ? "border-red-500 focus:ring-red-500 bg-red-50"
                       : "border-gray-300 focus:border-blue-500 bg-gray-50 hover:bg-white"

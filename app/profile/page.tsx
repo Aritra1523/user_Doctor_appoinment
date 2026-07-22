@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import DoctorList from "@/components/Doctorlist/DoctorList";
-import Footer from "@/components/Footer/Footer";
+import Footer from "@/components/layout/Footer";
 import ProfileTopbar from "@/components/Profile/ProfileTopbar";
 import PatientIdCard from "@/components/Profile/PatientIdCard";
 import VitalsStrip from "@/components/Profile/VitalsStrip";

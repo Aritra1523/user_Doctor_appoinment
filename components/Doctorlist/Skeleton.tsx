@@ -17,7 +17,10 @@ export const DoctorListSkeleton = () => {
 
       {/* Doctor Cards Skeleton */}
       {[...Array(5)].map((_, index) => (
-        <div key={index} className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6">
+        <div
+          key={index}
+          className="bg-white rounded-2xl border border-slate-100 p-5 md:p-6"
+        >
           <div className="flex flex-col md:flex-row gap-5">
             <div className="flex items-start gap-4 flex-1">
               <div className="w-16 h-16 rounded-2xl bg-slate-200 flex-shrink-0"></div>

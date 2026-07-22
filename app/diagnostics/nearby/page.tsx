@@ -7,8 +7,7 @@ import { getNearbyDiagnostics, ApiError, type DiagnosticCentre } from "@/lib/api
 import { SectionSkeleton, EmptyState, ErrorState } from "@/components/dashboard/DashboardParts";
 import useGeolocation from "@/customHooks/Geolocation/useGeolocation";
 
-// Leaflet touches `window` on import, so the map must never render on the
-// server — load it lazily, client-side only.
+
 const NearbyDiagnosticsMap = dynamic(
   () => import("@/components/Map/NearbyDiagnosticsMap"),
   {

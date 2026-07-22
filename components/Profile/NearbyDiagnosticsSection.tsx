@@ -10,9 +10,7 @@ import {
 import type { GeoState } from "@/customHooks/Geolocation/useGeolocation";
 import type { AsyncState } from "@/typescript/profile/profile";
 
-// Leaflet touches `window` on import, so the map must never render on the
-// server — load it lazily, client-side only (same pattern as
-// app/diagnostics/nearby/page.tsx).
+
 const NearbyDiagnosticsMap = dynamic(
   () => import("@/components/Map/NearbyDiagnosticsMap"),
   {

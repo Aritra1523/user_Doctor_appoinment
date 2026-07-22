@@ -11,6 +11,7 @@ import { ErrorState } from "./ErrorState";
 import { LoadingSpinner, DoctorListSkeleton } from "./Skeleton";
 import { useDoctorListHelpers } from "./useDoctorListHelpers";
 import { Pagination } from "./Pagination";
+import ProfileTopbar from "../Profile/ProfileTopbar";
 
 const DEFAULT_LIMIT = 5;
 // When searching, fetch (effectively) the whole list in one request so
@@ -33,8 +34,7 @@ const DoctorList = () => {
 
   const isSearching = search.trim().length > 0;
 
-  // Not searching: fetch exactly this page (?page=&limit=) from the server.
-  // Searching: fetch everything once so we can filter across the full list.
+  
   const effectivePage = isSearching ? 1 : page;
   const effectiveLimit = isSearching ? SEARCH_FETCH_LIMIT : limit;
 
@@ -50,18 +50,14 @@ const DoctorList = () => {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  // Note: sort still only applies to the doctors already on this page — only
-  // search fetches the full list.
+  
   const { getRandomUserImage, getDoctorData, filteredDoctors } = useDoctorListHelpers(
     doctors,
     search,
     sortBy
   );
 
-  // If a deep link points past the last real page (e.g. ?page=99), snap
-  // back to the last valid page once we know how many pages there are.
-  // Skipped while searching, since totalPages reflects the "fetch everything"
-  // request in that mode, not the real per-page pagination.
+
   const isFirstRender = useRef(true);
   useEffect(() => {
     if (isFirstRender.current) {
@@ -71,7 +67,6 @@ const DoctorList = () => {
     if (!loading && !isSearching && page > totalPages) {
       goToPage(totalPages);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading, totalPages, isSearching]);
 
   // Loading states with progressive enhancement
