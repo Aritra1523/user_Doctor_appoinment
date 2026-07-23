@@ -8,10 +8,9 @@ import { Header } from "./Header";
 import { DoctorCard } from "./DoctorCard";
 import { EmptyState } from "./EmptyState";
 import { ErrorState } from "./ErrorState";
-import { LoadingSpinner, DoctorListSkeleton } from "./Skeleton";
+import {  DoctorListSkeleton } from "./Skeleton";
 import { useDoctorListHelpers } from "./useDoctorListHelpers";
 import { Pagination } from "./Pagination";
-import ProfileTopbar from "../Profile/ProfileTopbar";
 
 const DEFAULT_LIMIT = 5;
 // When searching, fetch (effectively) the whole list in one request so

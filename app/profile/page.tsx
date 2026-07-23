@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store/store";
 import DoctorList from "@/components/Doctorlist/DoctorList";
 import Footer from "@/components/layout/Footer";
-import ProfileTopbar from "@/components/Profile/ProfileTopbar";
+import Header from "@/components/layout/Header";
 import PatientIdCard from "@/components/Profile/PatientIdCard";
 import VitalsStrip from "@/components/Profile/VitalsStrip";
 import RecentHistorySection from "@/components/Profile/RecentHistorySection";
@@ -36,7 +36,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#F4F6F5] text-[#101A17] font-sans">
-      <ProfileTopbar
+      <Header
         user={user}
         patientId={profileMenu.patientId}
         showProfile={profileMenu.showProfile}
