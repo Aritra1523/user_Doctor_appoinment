@@ -8,13 +8,12 @@ import { Header } from "./Header";
 import { DoctorCard } from "./DoctorCard";
 import { EmptyState } from "./EmptyState";
 import { ErrorState } from "./ErrorState";
-import {  DoctorListSkeleton } from "./Skeleton";
+import { DoctorListSkeleton } from "./Skeleton";
 import { useDoctorListHelpers } from "./useDoctorListHelpers";
 import { Pagination } from "./Pagination";
 
 const DEFAULT_LIMIT = 5;
-// When searching, fetch (effectively) the whole list in one request so
-// search isn't limited to just the 5 doctors on the current page.
+
 const SEARCH_FETCH_LIMIT = 1000;
 
 const DoctorList = () => {
@@ -25,7 +24,8 @@ const DoctorList = () => {
   const pageParam = Number(searchParams.get("page"));
   const limitParam = Number(searchParams.get("limit"));
   const page = Number.isFinite(pageParam) && pageParam > 0 ? pageParam : 1;
-  const limit = Number.isFinite(limitParam) && limitParam > 0 ? limitParam : DEFAULT_LIMIT;
+  const limit =
+    Number.isFinite(limitParam) && limitParam > 0 ? limitParam : DEFAULT_LIMIT;
 
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("featured");
@@ -33,13 +33,12 @@ const DoctorList = () => {
 
   const isSearching = search.trim().length > 0;
 
-  
   const effectivePage = isSearching ? 1 : page;
   const effectiveLimit = isSearching ? SEARCH_FETCH_LIMIT : limit;
 
   const { doctors, loading, error, totalItems, totalPages } = useDoctorList(
     effectivePage,
-    effectiveLimit
+    effectiveLimit,
   );
 
   const goToPage = (nextPage: number) => {
@@ -49,13 +48,8 @@ const DoctorList = () => {
     router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  
-  const { getRandomUserImage, getDoctorData, filteredDoctors } = useDoctorListHelpers(
-    doctors,
-    search,
-    sortBy
-  );
-
+  const { getRandomUserImage, getDoctorData, filteredDoctors } =
+    useDoctorListHelpers(doctors, search, sortBy);
 
   const isFirstRender = useRef(true);
   useEffect(() => {
@@ -112,7 +106,12 @@ const DoctorList = () => {
         />
 
         {filteredDoctors.length === 0 ? (
-          <EmptyState onReset={() => { setSearch(''); setSortBy('featured'); }} />
+          <EmptyState
+            onReset={() => {
+              setSearch("");
+              setSortBy("featured");
+            }}
+          />
         ) : (
           <>
             <div className="space-y-4">
@@ -152,14 +151,19 @@ const DoctorList = () => {
             transform: translateY(0);
           }
         }
-        
+
         .animate-fadeInUp {
           animation: fadeInUp 0.3s ease-out both;
         }
 
         @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+          0%,
+          100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
         }
       `}</style>
     </div>

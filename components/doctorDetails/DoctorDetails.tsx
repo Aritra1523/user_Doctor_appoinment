@@ -1,7 +1,6 @@
 "use client";
 
 import { useDoctorDetails } from '@/customHooks/doctor/useDoctorDetails';
-import React from 'react';
 import { DoctorNotFound } from './DoctorNotFound';
 import { BackIcon } from './DoctorIcons';
 import { DoctorProfile } from './DoctorProfile';

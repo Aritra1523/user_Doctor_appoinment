@@ -44,7 +44,7 @@ const initialState: AuthState = {
   refreshToken: null,
 };
 
-// ================= REGISTER =================
+//  REGISTER 
 
 export const registerUser = createAsyncThunk<
   RegisterResponse,
@@ -61,7 +61,7 @@ export const registerUser = createAsyncThunk<
   }
 });
 
-// ================= LOGIN =================
+//  LOGIN 
 
 export const loginUser = createAsyncThunk<
   LoginResponse,
@@ -176,7 +176,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // ================= REGISTER =================
+      //  REGISTER 
 
       .addCase(registerUser.pending, (state) => {
         state.loading = true;
@@ -246,7 +246,7 @@ const authSlice = createSlice({
         state.error = action.payload ?? "Login Failed";
       })
 
-      // ================= FORGOT PASSWORD =================
+      //  FORGOT PASSWORD 
 
       .addCase(forgotPassword.pending, (state) => {
         state.loading = true;
